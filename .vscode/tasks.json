@@ -1,0 +1,84 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "lint",
+      "type": "shell",
+      "command": "bun run lint",
+      "problemMatcher": [],
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "format",
+      "type": "shell",
+      "command": "bun run format",
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "dev",
+      "type": "shell",
+      "command": "bun run dev",
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "typescript",
+        "fileLocation": ["relative", "${workspaceFolder}"],
+        "pattern": {
+          "regexp": "^([^\\s].*):(\\d+):(\\d+):\\s+(error|warning|info)\\s+(TS\\d+)\\s*:\\s*(.*)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "severity": 4,
+          "code": 5,
+          "message": 6
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": {
+            "regexp": "(.*ready|.*compiled|.*Local:)"
+          },
+          "endsPattern": {
+            "regexp": "(.*compiled|.*Ready|.*error)"
+          }
+        }
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "test",
+      "type": "shell",
+      "command": "bun run test",
+      "problemMatcher": [],
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    }
+  ]
+}
+
