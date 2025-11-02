@@ -1,0 +1,152 @@
+name: 🐛 Bug Report
+description: Report a bug or issue with the system
+title: "[Bug] "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Bug Report Template
+        Thanks for taking the time to report a bug! Please provide as much detail as possible to help us reproduce and fix the issue.
+
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: Bug Description
+      description: Clear and concise description of what the bug is
+      placeholder: |
+        Steering commands sent via WebSocket are not being applied to the running workflow. The workflow continues executing without acknowledging the command.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction-steps
+    attributes:
+      label: Steps to Reproduce
+      description: Numbered list of steps to reproduce the behavior
+      placeholder: |
+        1. Start a research session with steering enabled: POST /api/research/start with enableSteering=true
+        2. Wait for the workflow to emit "steering_ready" event via SSE
+        3. Connect to WebSocket: wss://localhost:3000/api/research/[id]/steer
+        4. Send steering command: {"command": "continue", "payload": {}}
+        5. Observe that workflow times out after 5 minutes without acknowledging the command
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected Behavior
+      description: What should happen?
+      placeholder: |
+        The workflow should:
+        1. Acknowledge the WebSocket message
+        2. Apply the "continue" command
+        3. Resume execution immediately
+        4. Complete within expected time (< 90 seconds)
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: Actual Behavior
+      description: What actually happens?
+      placeholder: |
+        The workflow:
+        1. Does not send acknowledgment via WebSocket
+        2. Continues waiting at steering checkpoint
+        3. Times out after 5 minutes (default timeout)
+        4. Marks session as "failed" due to timeout
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: System and software versions
+      placeholder: |
+        - OS: macOS 15.1 / Ubuntu 24.04 / Windows 11
+        - Browser: Chrome 131.0.6778.86 / Firefox 133.0 / Safari 18.1
+        - Node.js: 20.11.0
+        - Bun: 1.3.1
+        - Next.js: 16.0.1
+        - Database: Neon Postgres / Local PostgreSQL 15
+        - Ollama: 0.5.1
+      value: |
+        - OS:
+        - Browser:
+        - Node.js:
+        - Bun:
+        - Next.js:
+        - Database:
+        - Ollama:
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Error Logs / Screenshots
+      description: Paste relevant error messages, stack traces, or attach screenshots
+      placeholder: |
+        ```
+        Error: Steering command timeout after 300000ms
+          at waitForSteering (src/lib/steering/manager.ts:45)
+          at masterResearchWorkflow (src/workflows/research/master.ts:78)
+        ```
+
+        Or drag and drop screenshots here...
+      render: shell
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Any other relevant information (network conditions, recent changes, etc.)
+      placeholder: |
+        - This started happening after upgrading to Bun 1.3.1
+        - Only occurs when Ollama server is on remote host (not localhost)
+        - Works fine in development but fails in production
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      description: How critical is this bug?
+      options:
+        - Critical (blocks all usage, data loss)
+        - High (major feature broken, workaround exists)
+        - Medium (feature partially broken, minor impact)
+        - Low (cosmetic issue, minimal impact)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: frequency
+    attributes:
+      label: Frequency
+      description: How often does this occur?
+      options:
+        - Always (100% reproducible)
+        - Often (> 50% of the time)
+        - Sometimes (< 50% of the time)
+        - Rarely (hard to reproduce)
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-submission Checklist
+      description: Please confirm before submitting
+      options:
+        - label: I have searched existing issues to ensure this is not a duplicate
+          required: true
+        - label: I have provided detailed reproduction steps
+          required: true
+        - label: I have included environment information
+          required: true
+        - label: I have attached relevant logs or screenshots (if applicable)
+          required: false

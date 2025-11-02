@@ -1,0 +1,107 @@
+name: 🎯 Epic
+description: High-level feature grouping (e.g., Week 1 Foundation, Week 2 Core Workflow)
+title: "[Epic] "
+labels: ["epic", "planning"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Epic Template
+        Use this for major feature groupings that span multiple features or user stories.
+        Examples: "Week 1: Foundation", "Week 2: Core Workflow", "Phase 1: MVP"
+
+  - type: input
+    id: epic-name
+    attributes:
+      label: Epic Name
+      description: Short descriptive name for this epic
+      placeholder: "Week 1: Foundation"
+    validations:
+      required: true
+
+  - type: textarea
+    id: epic-description
+    attributes:
+      label: Epic Description
+      description: High-level overview of what this epic accomplishes
+      placeholder: |
+        Set up the foundational infrastructure for the Enterprise Deep Research system, including database schema, authentication, Ollama integration, and core API routes.
+    validations:
+      required: true
+
+  - type: textarea
+    id: success-criteria
+    attributes:
+      label: Success Criteria
+      description: What does "done" look like for this epic? Use checkboxes.
+      placeholder: |
+        - [ ] Database schema created and migrations applied
+        - [ ] Supabase authentication fully integrated
+        - [ ] Ollama provider configured and tested
+        - [ ] Core API routes functional (/start, /status, /history)
+        - [ ] All related features completed and merged
+        - [ ] Integration tests passing
+        - [ ] Documentation updated
+    validations:
+      required: true
+
+  - type: textarea
+    id: related-features
+    attributes:
+      label: Related Features
+      description: List related feature issues using #issue-number
+      placeholder: |
+        - #1 Database Schema Setup
+        - #2 Supabase Auth Integration
+        - #3 Ollama Provider Configuration
+        - #4 API Route Infrastructure
+        - #5 Environment & Config Setup
+
+  - type: dropdown
+    id: timeline
+    attributes:
+      label: Timeline
+      description: Which development week does this epic belong to?
+      options:
+        - Week 1 - Foundation
+        - Week 2 - Core Workflow
+        - Week 3 - Synthesis & UI
+        - Week 4 - Streaming & Steering
+        - Week 5 - Observability
+        - Week 6 - Testing & Quality
+        - Week 7-8 - Deployment & Refinement
+    validations:
+      required: true
+
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies
+      description: What must be completed before starting this epic?
+      placeholder: |
+        - None (this is the first epic)
+        OR
+        - Requires database schema (#1) to be complete
+        - Requires authentication (#2) to be set up
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: Detailed criteria for epic completion (technical requirements)
+      placeholder: |
+        - All features within this epic are merged to main
+        - No critical bugs in epic scope
+        - Test coverage >80% for all new code
+        - Documentation reflects all changes
+        - Can be demonstrated in a working prototype
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional Notes
+      description: Any other context, risks, or considerations
+      placeholder: |
+        - Consider performance implications of trajectory logging
+        - May need to adjust timeline if Ollama setup is complex
+        - Document any blockers immediately

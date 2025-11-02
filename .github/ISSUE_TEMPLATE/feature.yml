@@ -1,0 +1,145 @@
+name: ✨ Feature
+description: Individual feature from PRD (e.g., F1-F9 or specific implementation tasks)
+title: "[Feature] "
+labels: ["feature", "enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Feature Template
+        Use this for individual features that map to PRD requirements or standalone enhancements.
+        Examples: "F2: Real-Time Streaming", "Database Schema Setup", "Tavily Web Search Agent"
+
+  - type: input
+    id: feature-name
+    attributes:
+      label: Feature Name
+      description: Descriptive name (reference PRD if applicable)
+      placeholder: "F2: Real-Time Streaming"
+    validations:
+      required: true
+
+  - type: textarea
+    id: user-story
+    attributes:
+      label: User Story
+      description: "Format: As a [role], I want [feature], so that [benefit]"
+      placeholder: |
+        As a researcher, I want to see live progress updates during workflow execution, so that I know the system is actively working and can estimate completion time.
+    validations:
+      required: true
+
+  - type: textarea
+    id: technical-approach
+    attributes:
+      label: Technical Approach
+      description: How will this be implemented? Include key technologies and patterns.
+      placeholder: |
+        - Use Server-Sent Events (SSE) from `/api/research/[id]/stream` endpoint
+        - Workflow emits events at each step: step_started, source_found, step_completed
+        - Frontend subscribes using EventSource API
+        - Events include: stepName, timestamp, output data
+        - Handle reconnection logic for dropped connections
+    validations:
+      required: true
+
+  - type: textarea
+    id: affected-areas
+    attributes:
+      label: Database/API/Workflow Changes
+      description: Which parts of the system are affected?
+      placeholder: |
+        **API:**
+        - New endpoint: GET /api/research/[id]/stream (SSE)
+
+        **Database:**
+        - No schema changes required
+
+        **Workflow:**
+        - Add emitSSEEvent() calls at each workflow step
+        - Update masterResearchWorkflow to emit events
+
+        **Frontend:**
+        - Create StreamingProgressPanel component
+        - Add EventSource listener in ResearchDashboard
+
+  - type: textarea
+    id: testing-requirements
+    attributes:
+      label: Testing Requirements
+      description: What tests are needed to validate this feature?
+      placeholder: |
+        **Unit Tests:**
+        - Test SSE event formatter function
+        - Test event emission logic
+
+        **Integration Tests:**
+        - Full workflow with SSE event capture
+        - Verify all expected events are emitted
+        - Test event ordering and timing
+
+        **E2E Tests:**
+        - Frontend receives and displays events in real-time
+        - Progress bar updates correctly
+        - Handle disconnection/reconnection
+
+  - type: textarea
+    id: definition-of-done
+    attributes:
+      label: Definition of Done
+      description: Checklist for completion (use checkboxes)
+      placeholder: |
+        - [ ] Implementation complete and working locally
+        - [ ] All tests written and passing
+        - [ ] Code reviewed and approved
+        - [ ] Documentation updated (README, DATA_MODELS.md)
+        - [ ] No linting/formatting errors (bun check passes)
+        - [ ] Test coverage maintained (>80%)
+        - [ ] Feature demoed to team/stakeholders
+        - [ ] Deployed to staging environment
+    validations:
+      required: true
+
+  - type: input
+    id: related-epic
+    attributes:
+      label: Related Epic
+      description: Link to parent epic using #issue-number
+      placeholder: "#4"
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How critical is this feature?
+      options:
+        - P0 - Critical (blocks MVP)
+        - P1 - High (important for MVP)
+        - P2 - Medium (nice to have)
+        - P3 - Low (future enhancement)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: estimated-effort
+    attributes:
+      label: Estimated Effort
+      description: T-shirt sizing for development time
+      options:
+        - XS (< 4 hours)
+        - S (4-8 hours)
+        - M (1-2 days)
+        - L (3-5 days)
+        - XL (1+ weeks)
+    validations:
+      required: true
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional Notes
+      description: Design considerations, edge cases, or known risks
+      placeholder: |
+        - Consider SSE connection limits per browser
+        - May need WebSocket fallback for older browsers
+        - Test with slow network conditions
